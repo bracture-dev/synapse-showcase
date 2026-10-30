@@ -1,0 +1,49 @@
+{
+  "name": "@nimblebraininc/synapse-showcase",
+  "version": "0.1.0",
+  "description": "A shared guide and practice app for learning MCP applications",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "synapse-showcase": "build/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.js"
+    }
+  },
+  "files": [
+    "build/",
+    "manifest.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build:server": "tsc -p tsconfig.json && node scripts/build-assets.mjs",
+    "build": "npm run build:server",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "biome check src test scripts",
+    "test": "npm run build:server && vitest run",
+    "start": "node build/index.js --stdio",
+    "dev": "tsx src/index.ts --stdio",
+    "dev:http": "tsx src/index.ts --http",
+    "format": "biome format --write src test scripts",
+    "format:check": "biome format src test scripts",
+    "check": "npm run format:check && npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.3.0",
+    "zod": "4.6.6"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@types/node": "26.6.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.12",
+    "tsx": "4.21.0"
+  }
+}
