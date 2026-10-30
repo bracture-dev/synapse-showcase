@@ -1,0 +1,10 @@
+node_modules/
+build/
+ui/node_modules/
+ui/dist/
+ui/.vite/
+*.mcpb
+workspace/
+.nimblebrain/
+.env
+.env.*
