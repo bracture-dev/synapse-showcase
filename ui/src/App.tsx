@@ -797,7 +797,8 @@ export default function App() {
             </nav>
           </ChapterSidebar>
           <SidebarLayout.Main>
-            <main className="guide-main" aria-busy={busy}>
+            {/* The kit's gutter narrows with the frame's header and takes the host's values. */}
+            <main className="guide-main" style={{ padding: tokens.gutter }} aria-busy={busy}>
               <div className="guide-toolbar">
                 <SidebarLayout.Trigger aria-label="Open guide chapters" />
                 <Badge>

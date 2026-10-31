@@ -41,7 +41,6 @@ select:focus-visible {
   text-align: center;
 }
 .guide-main {
-  padding: var(--nb-gutter, 1.5rem);
   max-width: 1280px;
   margin: auto;
 }
