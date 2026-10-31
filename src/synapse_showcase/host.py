@@ -8,11 +8,23 @@ from collections.abc import Awaitable, Callable
 from typing import Any, Protocol
 
 CAPABILITIES = ("appPlan", "appInstall", "appStatus", "appLifecycle", "agentSetup")
-METHODS = frozenset(("hello", "snapshot", *CAPABILITIES))
+# The installer answers each method within its own deadline, and an expired call
+# gets an explicit "outcome unknown" reply. Ours waits a little longer, so that
+# reply arrives first and this timeout only covers a silent installer.
+DEADLINES = {
+    "hello": 10.0,
+    "snapshot": 30.0,
+    "appPlan": 30.0,
+    "appInstall": 30.0,
+    "agentSetup": 30.0,
+    "appStatus": 90.0,
+    "appLifecycle": 150.0,
+}
+DEADLINE_MARGIN = 5.0
+METHODS = frozenset(DEADLINES)
 MUTATIONS = frozenset(("appInstall", "appLifecycle"))
 MAX_LINE = 256 * 1024
 MAX_PENDING = 16
-CALL_TIMEOUT = 15.0
 
 
 class Host(Protocol):
@@ -141,7 +153,7 @@ class StdioHost:
         future = asyncio.get_running_loop().create_future()
         self._pending[request_id] = (future, method)
         try:
-            async with asyncio.timeout(CALL_TIMEOUT):
+            async with asyncio.timeout(DEADLINES[method] + DEADLINE_MARGIN):
                 await self._send(line)
                 return await future
         except TimeoutError:

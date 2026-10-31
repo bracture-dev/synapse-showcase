@@ -59,7 +59,10 @@ class HostPipeTests(unittest.IsolatedAsyncioTestCase):
             await self.host.call("appInstall", {})
 
     async def test_timeout_does_not_repeat_action_or_break_later_status(self):
-        with patch("synapse_showcase.host.CALL_TIMEOUT", 0.02):
+        with (
+            patch("synapse_showcase.host.DEADLINE_MARGIN", 0.02),
+            patch.dict("synapse_showcase.host.DEADLINES", {"appLifecycle": 0.0}),
+        ):
             action = asyncio.create_task(
                 self.host.call("appLifecycle", {"app": "crm", "action": "stop"})
             )
@@ -71,6 +74,30 @@ class HostPipeTests(unittest.IsolatedAsyncioTestCase):
         self.reply(await self.requests.get(), {"appJob": None})
         self.assertEqual(await status, {"appJob": None})
         self.assertTrue(self.requests.empty())
+
+    async def test_installer_timeout_reply_keeps_the_channel_open(self):
+        # The installer answers an expired call with an explicit error and keeps
+        # the pipe open; the error reaches the caller and later calls still work.
+        action = asyncio.create_task(self.host.call("appStatus", {"app": "crm"}))
+        request = await self.requests.get()
+        self.reader.feed_data(
+            (
+                json.dumps({"id": request["id"], "error": "The host operation timed out."}) + "\n"
+            ).encode()
+        )
+        with self.assertRaisesRegex(RuntimeError, "timed out"):
+            await action
+        status = asyncio.create_task(self.host.call("snapshot", {}))
+        self.reply(await self.requests.get(), {"appJob": None})
+        self.assertEqual(await status, {"appJob": None})
+
+    def test_every_method_waits_longer_than_the_installer(self):
+        from synapse_showcase.host import DEADLINE_MARGIN, DEADLINES, METHODS
+
+        self.assertEqual(METHODS, frozenset(DEADLINES))
+        self.assertGreater(DEADLINE_MARGIN, 0)
+        self.assertGreaterEqual(DEADLINES["appStatus"], 90)
+        self.assertGreaterEqual(DEADLINES["appLifecycle"], 150)
 
     async def test_unknown_methods_and_busy_channel_send_nothing(self):
         with self.assertRaisesRegex(ValueError, "Unknown"):
