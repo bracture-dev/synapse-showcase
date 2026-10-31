@@ -2,12 +2,15 @@
 
 Showcase is a guide app for NimbleBrain. It teaches how an MCP app works: a person uses the
 app's screen while an agent calls the same tools, and both see one saved guide and practice
-board. It is a Python FastMCP server with a React UI, released under the [MIT License](LICENSE).
+board. It is a Python FastMCP server with a React UI, licensed under the [MIT License](LICENSE).
+
+This Python port is a source candidate. A reviewed `uv.lock` and verification of the installed
+wheel and MCPB bundle are still pending.
 
 ## Develop
 
-Use Python 3.13 or newer, Node.js 24 or newer, and the repository's reviewed dependency locks.
-Prepare the Python environment with `uv sync --frozen --dev` and the UI with
+Use Python 3.13 or newer and Node.js 24 or newer. After a reviewed `uv.lock` is accepted,
+prepare the Python environment with `uv sync --frozen --dev` and the UI with
 `npm --prefix ui ci --ignore-scripts`, subject to your host's package policy. Then:
 
 ```sh
@@ -48,8 +51,8 @@ are omitted from the tools and shown as unavailable in the guide.
 ## Package
 
 `manifest.json` describes the Python entry point and app placement; `mpak.json` identifies the
-canonical package. The release workflow follows the Synapse app platform matrix and builds
-the UI before `mcpb-pack` vendors the Python package. It runs only for releases in the canonical
-repository. Keep the version in `manifest.json`, `pyproject.toml`,
+canonical package. Before release, verify the installed wheel and MCPB bundle and add a
+canonical release workflow. It must use the Synapse app platform matrix and build the UI before
+`mcpb-pack` vendors the Python package. Keep the version in `manifest.json`, `pyproject.toml`,
 `src/synapse_showcase/__init__.py`, `ui/package.json` and `ui/package-lock.json` consistent
 before a release.
