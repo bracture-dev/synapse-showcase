@@ -8,7 +8,7 @@ import uuid
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeGuard
 
 from synapse_showcase.content import CATALOG, FOCUS, STEP_IDS, STEPS
 
@@ -39,7 +39,7 @@ def fresh() -> State:
     }
 
 
-def _number(value: Any) -> bool:
+def _number(value: Any) -> TypeGuard[int | float]:
     return isinstance(value, int | float) and not isinstance(value, bool)
 
 

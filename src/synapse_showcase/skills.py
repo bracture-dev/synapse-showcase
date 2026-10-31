@@ -62,7 +62,7 @@ class SkillsGetResult(mt.Result):
 class SkillsRequest(mt.ClientRequest):
     """Every request mcp knows, plus the two this extension adds."""
 
-    root: mt.ClientRequestType | SkillsListRequest | SkillsGetRequest  # type: ignore[assignment]
+    root: mt.ClientRequestType | SkillsListRequest | SkillsGetRequest  # ty: ignore[invalid-attribute-override]
 
 
 def describe(skill: Skill, data: bytes) -> dict[str, Any]:
@@ -103,8 +103,8 @@ class SkillsExtension(Middleware):
                 )
             )
         handlers = server._mcp_server.request_handlers
-        handlers[SkillsListRequest] = self._list  # type: ignore[index]
-        handlers[SkillsGetRequest] = self._get  # type: ignore[index]
+        handlers[SkillsListRequest] = self._list  # ty: ignore[invalid-assignment]
+        handlers[SkillsGetRequest] = self._get  # ty: ignore[invalid-assignment]
         server.add_middleware(self)
 
     async def on_initialize(self, context: MiddlewareContext, call_next):
