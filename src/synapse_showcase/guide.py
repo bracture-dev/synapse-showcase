@@ -38,8 +38,8 @@ INSTRUCTIONS = (
 APP_INSTRUCTIONS = (
     " Apps such as Todo Board and CRM have screens inside NimbleBrain. Read app_plan to review "
     "source, locked dependencies, local server, workspace connection, prerequisites and possible "
-    "managed-runtime restart. After the person approves that exact plan, call app_install with "
-    "its hash and explicit confirmation. app_install returns a host job, which can outlast a "
+    "managed-runtime restart. The person chooses Review, then Install or Connect, in Showcase; "
+    "only that click calls app_install. Installation returns a host job, which can outlast a "
     "managed-runtime restart. Poll app_job_status and report ready only after verified tools and "
     "UI. Adding an app does not authorize external accounts or expand existing external data "
     "access. Missing host prerequisites and package policy approvals belong to the operator; "
@@ -343,7 +343,13 @@ class Guide:
             ),
         ]
         if self.host is not None:
-            tools.extend(self._host_tools())
+            # The external endpoint has no Showcase screen, so it omits app-only tools.
+            tools.extend(
+                item
+                for item in self._host_tools()
+                if not external
+                or "model" in (item.meta or {}).get("ui", {}).get("visibility", ["model"])
+            )
         if external:
             tools.append(
                 tool(
@@ -396,7 +402,7 @@ class Guide:
                 tool(
                     "app_install",
                     "Add an app",
-                    "After the person approves the exact app_plan, queue its connection-only or full local installation under existing package policy. The host's job can outlast a managed NimbleBrain restart. Returns a durable job; use app_job_status for verified tools and UI. Grants no external account access.",
+                    "Called by Showcase's Install or Connect button after the person reviews the exact app_plan; hidden from the agent. Queues its connection-only or full local installation under existing package policy. The host's job can outlast a managed NimbleBrain restart. Returns a durable job; use app_job_status for verified tools and UI. Grants no external account access.",
                     invoke("appInstall"),
                     {
                         "app": app,
@@ -405,7 +411,9 @@ class Guide:
                     },
                     ("app", "planHash", "confirm"),
                     ToolAnnotations(readOnlyHint=False, destructiveHint=False, openWorldHint=True),
-                    UI_META,
+                    # An install can restart NimbleBrain, so only the person's click in Showcase
+                    # makes one. NimbleBrain refuses agent calls to app-only tools.
+                    {"ui": {**UI_META["ui"], "visibility": ["app"]}},
                 ),
             ),
             (

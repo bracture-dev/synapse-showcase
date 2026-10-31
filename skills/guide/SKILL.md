@@ -17,7 +17,8 @@ The person may click while you work. Read current state before using a card ID o
 chapter is still selected. `board_add` and `board_move` affect only the practice board. They
 do not create real tasks in another app. Read back the changed card before describing success.
 
-The screen and an agent use the same tools and saved state. All arrows and animations remain
+The screen and an agent use the same tools and saved state, except that only the screen
+installs an app. All arrows and animations remain
 inside Showcase. No guide tool controls the host's DOM, acquires a model key or signs in to an
 external provider. Keep keys out of messages and tool arguments.
 

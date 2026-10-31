@@ -50,6 +50,7 @@ async def test_host_tools_preserve_confirmation_schema_and_forward_only_valid_in
         } <= tools.keys()
         assert not any(name.startswith("operator_") for name in tools)
         assert tools["app_install"].annotations.openWorldHint
+        assert tools["app_install"].meta["ui"]["visibility"] == ["app"]
         assert tools["app_lifecycle"].annotations.destructiveHint
         for name in ("guide_status", "guide_step", "board_add", "app_install", "app_lifecycle"):
             assert tools[name].meta["ui"]["resourceUri"] == GUIDE_URI
@@ -120,6 +121,14 @@ async def test_host_events_notify_without_revision_and_ready_completes_catalog(d
         assert current["step"] == "board"
         assert current["appJob"]["state"] == "ready"
     assert not host.listeners
+
+
+async def test_external_endpoint_omits_app_only_install(data_file):
+    async with Client(Guide(GuideStore(data_file), FakeHost()).make_server(external=True)) as agent:
+        names = await tool_names(agent)
+        assert "app_plan" in names and "app_install" not in names
+        approved = {"app": "crm", "planHash": "a" * 64, "confirm": True}
+        assert (await call(agent, "app_install", approved)).isError
 
 
 async def test_standalone_has_no_host_tools_or_capabilities(data_file):

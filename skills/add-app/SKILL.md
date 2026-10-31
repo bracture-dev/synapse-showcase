@@ -11,8 +11,9 @@ shell command, endpoint or permission.
 
 1. Call `app_plan` for the app the person chose. Describe its mode, source revision, data path,
    prerequisites and effects. A connection-only plan must not become a package installation.
-2. Obtain the person's approval of that exact plan. Pass its unchanged `planHash` and
-   `confirm: true` to `app_install`. A stale or rejected plan is reviewed again, never bypassed.
+2. Ask the person to choose Review, then Install or Connect, in Showcase. The screen shows its
+   own current plan, and only that click calls `app_install`; the agent cannot. A stale or
+   rejected plan is reviewed again, never bypassed.
 3. The result is a job, not proof of success. Read `app_job_status` while it runs. Let a runtime
    reconnect finish before retrying. Do not submit the same installation repeatedly.
 4. Read `app_status` after completion. Report tools and UI as working only when the host's
