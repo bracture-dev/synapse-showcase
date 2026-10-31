@@ -10,9 +10,14 @@ authors = [
 ]
 keywords = ["mcp", "synapse", "guide", "onboarding", "nimblebrain"]
 dependencies = [
-    # The release bundle installs from these constraints, not uv.lock, so the
-    # exact pin is what keeps the FastMCP the tests ran against in the .mcpb.
+    # Bundle installation uses these constraints rather than uv.lock.
+    # Keep the intended FastMCP/MCP compatibility pair explicit.
     "fastmcp==3.4.10",
+    # skills.py relies on MCP 1.x session internals; review both pins together.
+    "mcp==1.30.0",
+    "jsonschema>=4.26.0",
+    "starlette>=1.3.1",
+    "uvicorn>=0.42.0",
 ]
 
 [build-system]
@@ -21,6 +26,14 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/synapse_showcase"]
+only-include = ["src/synapse_showcase", "skills"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""
+"skills" = "synapse_showcase/assets/skills"
+
+[tool.hatch.build.targets.wheel.force-include]
+"ui/dist/index.html" = "synapse_showcase/assets/ui/dist/index.html"
 
 [dependency-groups]
 dev = [
@@ -28,6 +41,7 @@ dev = [
     "ty>=0.0.1a1",
     "pytest>=8.4.2",
     "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.1",
 ]
 
 [tool.pytest.ini_options]

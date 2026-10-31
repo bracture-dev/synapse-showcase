@@ -1,0 +1,25 @@
+# Dependencies contain the installed Python package, UI and skills.
+# Anchor project-only patterns so matching files in deps remain intact.
+/.git/
+/.github/
+/.venv/
+/.pytest_cache/
+/.ruff_cache/
+/.coverage
+/src/
+/skills/
+/tests/
+/ui/
+/workspace/
+/.nimblebrain/
+/dist/
+/build/
+/Makefile
+/CLAUDE.md
+/pyproject.toml
+/uv.lock
+/.env
+/.env.*
+__pycache__/
+*.pyc
+*.mcpb

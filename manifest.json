@@ -1,0 +1,94 @@
+{
+  "manifest_version": "0.4",
+  "name": "@nimblebraininc/synapse-showcase",
+  "display_name": "Showcase",
+  "version": "0.1.0",
+  "description": "Learn MCP apps through a shared guide and practice board",
+  "author": {
+    "name": "NimbleBrain Inc"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "synapse",
+    "guide",
+    "onboarding"
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "linux"
+    ],
+    "runtimes": {
+      "python": ">=3.13"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NimbleBrainInc/synapse-showcase"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "synapse_showcase.server",
+    "mcp_config": {
+      "command": "python",
+      "args": [
+        "-m",
+        "synapse_showcase.server"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "guide_status",
+      "description": "Read guide progress, practice cards and observed host status"
+    },
+    {
+      "name": "guide_step",
+      "description": "Choose a chapter and record completion or a skip"
+    },
+    {
+      "name": "guide_preferences",
+      "description": "Set the guide's pace and appearance"
+    },
+    {
+      "name": "guide_view",
+      "description": "Focus, pause or scale the guide illustration"
+    },
+    {
+      "name": "board_add",
+      "description": "Add a practice card"
+    },
+    {
+      "name": "board_move",
+      "description": "Move a practice card"
+    },
+    {
+      "name": "catalog_list",
+      "description": "Search included app and guide choices"
+    }
+  ],
+  "_meta": {
+    "org.mpaktrust": {
+      "mtf_version": "0.1",
+      "permissions": {
+        "filesystem": "write",
+        "network": "none",
+        "environment": "read",
+        "subprocess": "none",
+        "native": "none"
+      }
+    },
+    "ai.nimblebrain/host": {
+      "host_version": "1.0",
+      "placements": [
+        {
+          "slot": "sidebar.apps",
+          "resourceUri": "ui://showcase/guide",
+          "route": "@nimblebraininc/synapse-showcase",
+          "label": "Showcase"
+        }
+      ]
+    }
+  }
+}

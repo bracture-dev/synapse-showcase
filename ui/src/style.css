@@ -1,0 +1,258 @@
+:root {
+  color-scheme: light dark;
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+* {
+  box-sizing: border-box;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+input,
+select {
+  color: var(--color-text-primary, CanvasText);
+  background: var(--color-background-primary, Canvas);
+  border: 1px solid var(--color-border-primary, color-mix(in srgb, CanvasText 18%, Canvas));
+  border-radius: var(--border-radius-sm, 0.5rem);
+  min-height: 36px;
+  padding: 0.45rem 0.6rem;
+}
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-ring-primary, CanvasText);
+  outline-offset: 2px;
+}
+.chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0.65rem;
+}
+.chapters button {
+  justify-content: flex-start;
+  text-align: left;
+  gap: 0.65rem;
+  min-height: 44px;
+}
+.chapter-position {
+  width: 1.5rem;
+  text-align: center;
+}
+.guide-main {
+  padding: var(--nb-gutter, 1.5rem);
+  max-width: 1280px;
+  margin: auto;
+}
+.guide-toolbar,
+.scene-toolbar,
+.actions,
+.chapter-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.guide-toolbar {
+  margin-bottom: 1.5rem;
+  justify-content: space-between;
+}
+.compact-field {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.8rem;
+}
+.guide-scene {
+  margin-top: 1.5rem;
+  border: 1px solid var(--color-border-primary, color-mix(in srgb, CanvasText 18%, Canvas));
+  border-radius: var(--border-radius-md, 0.75rem);
+  overflow: hidden;
+}
+.scene-toolbar {
+  padding: 0.75rem;
+  justify-content: flex-end;
+  background: var(--color-background-secondary, Canvas);
+}
+.scene-toolbar button {
+  min-width: 36px;
+}
+.zoom-value {
+  font-size: 0.8rem;
+}
+.scene-window {
+  overflow: auto;
+}
+.scene-content {
+  padding: 1.5rem;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 1rem;
+}
+.card-grid > *,
+.board-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+.field-label input {
+  width: 100%;
+}
+.practice-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(170px, 1fr));
+  gap: 0.9rem;
+}
+.practice-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.board-column form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.focused {
+  outline: 2px solid var(--color-ring-primary, CanvasText);
+  outline-offset: 3px;
+}
+.control-map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.control-map > *,
+.control-node {
+  flex: 1;
+  min-width: 150px;
+}
+.control-map > span[aria-hidden="true"] {
+  min-width: 20px;
+  flex: 0 0 auto;
+  text-align: center;
+}
+.control-node {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.control-node > div {
+  flex: 1;
+}
+.control-node .flow-arrow {
+  font-size: 1.5rem;
+  color: var(--color-text-accent, CanvasText);
+}
+.playing .flow-arrow {
+  animation: flow 1.8s ease-in-out 2;
+}
+@keyframes flow {
+  50% {
+    transform: translateX(0.35rem);
+    opacity: 0.4;
+  }
+}
+.reduced-motion .flow-arrow {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .playing .flow-arrow {
+    animation: none;
+  }
+}
+.appearance-preview {
+  max-width: 560px;
+}
+.preview-chart {
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem;
+}
+.preview-chart i {
+  display: block;
+  flex: 1;
+  background: var(--color-text-accent, CanvasText);
+  border-radius: 0.3rem 0.3rem 0 0;
+}
+.actions {
+  margin-top: 0.75rem;
+}
+.chapter-footer {
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border-primary, color-mix(in srgb, CanvasText 18%, Canvas));
+}
+.motion-preference {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary, CanvasText);
+}
+.motion-preference input {
+  min-height: 0;
+}
+pre,
+code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+pre {
+  white-space: pre-wrap;
+  padding: 1rem;
+  background: var(--color-background-secondary, Canvas);
+  border-radius: 0.5rem;
+}
+blockquote {
+  margin: 0;
+  padding: 1rem;
+  border-left: 3px solid var(--color-text-accent, CanvasText);
+  background: var(--color-background-secondary, Canvas);
+}
+.error-message,
+.warning {
+  border-color: var(--color-text-danger, CanvasText);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 600px) {
+  .practice-board {
+    grid-template-columns: 1fr;
+  }
+  .scene-content {
+    padding: 0.85rem;
+  }
+  .chapter-footer button {
+    flex: 1;
+  }
+}
