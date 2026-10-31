@@ -16,6 +16,8 @@ export interface AvailableApp {
   description?: string;
   installed?: boolean;
   deployed?: boolean;
+  // Why the host will not plan this app's next step. Any other error can be retried.
+  installBlockedReason?: string;
   error?: string;
 }
 export interface AppJob {

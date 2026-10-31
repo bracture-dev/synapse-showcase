@@ -358,9 +358,10 @@ export default function App() {
                 <Text tone="muted">
                   {checks[item.id]?.ready
                     ? "Connected"
-                    : item.deployed || item.installed
-                      ? "Available · check the current connection"
-                      : "Not added yet"}
+                    : (item.installBlockedReason ??
+                      (item.deployed || item.installed
+                        ? "Available · check the current connection"
+                        : (item.error ?? "Not added yet")))}
                 </Text>
                 <div className="actions">
                   <Button
@@ -376,7 +377,7 @@ export default function App() {
                   </Button>
                   {state.capabilities.appPlan && (
                     <Button
-                      disabled={busy || installing}
+                      disabled={busy || installing || Boolean(item.installBlockedReason)}
                       onClick={() =>
                         void inspect(async () =>
                           setPlan(await call<AppPlan>("app_plan", { app: item.id })),
