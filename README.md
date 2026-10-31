@@ -4,13 +4,12 @@ Showcase is a guide app for NimbleBrain. It teaches how an MCP app works: a pers
 app's screen while an agent calls the same tools, and both see one saved guide and practice
 board. It is a Python FastMCP server with a React UI, licensed under the [MIT License](LICENSE).
 
-This Python port is a source candidate. A reviewed `uv.lock` and verification of the installed
-wheel and MCPB bundle are still pending.
+Verification of the installed wheel and MCPB bundle is still pending.
 
 ## Develop
 
-Use Python 3.13 or newer and Node.js 24 or newer. After a reviewed `uv.lock` is accepted,
-prepare the Python environment with `uv sync --frozen --dev` and the UI with
+Use Python 3.13 or newer and Node.js 24 or newer. Prepare the Python environment from the
+committed lock with `uv sync --frozen --dev` and the UI with
 `npm --prefix ui ci --ignore-scripts`, subject to your host's package policy. Then:
 
 ```sh
